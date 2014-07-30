@@ -1,0 +1,36 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+
+public class Rthread extends Thread {
+	Socket socket;
+	Rthread(Socket socket)
+	{
+		this.socket=socket;
+	}
+	public void run()
+	{
+		try {
+			DataInputStream dis = new DataInputStream(socket.getInputStream());
+			String data="";
+			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+			String name=dis.readUTF();
+			System.out.println(name+" Connected to The Server");
+			while(true)
+			{
+			data= dis.readUTF();
+			System.out.println("Client "+data);
+			dos.writeUTF(data);
+			}
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
